@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Dosen - Neural Network</title>
+    <style>
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Poppins', Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Tidak ada scroll */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0d0c22;
+            position: relative;
+        }
+
+        /* BACKGROUND DECORATION (Blobs ala Canva) */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+        .blob-1 {
+            width: 400px; height: 400px;
+            background: #e0f7fa; /* Cyan muda */
+            top: -50px; left: -100px;
+        }
+        .blob-2 {
+            width: 300px; height: 300px;
+            background: #f3e5f5; /* Ungu muda */
+            bottom: -50px; right: -50px;
+        }
+        .blob-3 {
+            width: 200px; height: 200px;
+            background: #fff3e0; /* Oranye muda */
+            top: 40%; right: 20%;
+        }
+
+        /* MAIN SLIDE CONTAINER */
+        .presentation-wrapper {
+            width: 90vw;
+            height: 90vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* SLIDE OBJECTS */
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: scale(0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertikal Center */
+            align-items: center;    /* Horizontal Center */
+            text-align: center;
+            padding: 40px;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* TYPOGRAPHY STRICT */
+        h1 {
+            font-size: 38px; /* Judul 38px */
+            font-weight: 700;
+            color: #2D3436;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            max-width: 1000px;
+        }
+
+        p, li {
+            font-size: 28px; /* Isi 28px */
+            line-height: 1.5;
+            color: #636E72;
+            margin-bottom: 15px;
+            max-width: 900px;
+            text-align: left; /* Agar list rapi */
+        }
+
+        /* LAYOUT HELPERS */
+        .row {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+        .col {
+            flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        ul {
+            text-align: left;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+        li { margin-bottom: 12px; }
+
+        /* CODE CARD STYLE */
+        .code-card {
+            background: #F8F9FA;
+            border-left: 6px solid #7D2AE8; /* Warna Ungu Canva */
+            padding: 25px;
+            border-radius: 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 20px; /* Sedikit disesuaikan agar muat, tapi tetap besar */
+            color: #2D3436;
+            text-align: left;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            white-space: pre-wrap;
+            width: 100%;
+            line-height: 1.4;
+        }
+
+        /* DECORATIVE ELEMENTS */
+        .accent-line {
+            width: 80px;
+            height: 6px;
+            background: linear-gradient(90deg, #00C4CC, #7D2AE8);
+            border-radius: 3px;
+            margin: 0 auto 30px auto;
+        }
+
+        .highlight { color: #7D2AE8; font-weight: 700; }
+
+        /* SUBTILE INDICATORS */
+        .page-indicator {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            font-size: 18px;
+            color: #b2bec3;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Backgrounds -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="presentation-wrapper">
+
+        <!-- SLIDE 1: Intro -->
+        <div class="slide active">
+            <div class="accent-line"></div>
+            <h1>PANDUAN UJICOBA DOSEN</h1>
+            <p style="text-align: center;">Praktikum Neural Network & Backpropagation</p>
+            <p style="text-align: center; margin-top: 20px; font-size: 24px; color: #b2bec3;">Dokumen panduan lengkap bagi dosen sebelum praktikum taruna.</p>
+        </div>
+
+        <!-- SLIDE 2: Persiapan -->
+        <div class="slide">
+            <h1>BAGIAN 1 - PERSIAPAN AWAL</h1>
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        <li>Install <strong>Python 3.9+</strong></li>
+                        <li>Install Library:<br>numpy, matplotlib, scikit-learn</li>
+                        <li>Gunakan <strong>Jupyter / Colab</strong></li>
+                        <li>Import tanpa error</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <div class="code-card">pip install numpy<br>pip install matplotlib<br>pip install scikit-learn</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Detail Install -->
+        <div class="slide">
+            <h1>INSTALASI & LINGKUNGAN KERJA</h1>
+            <div class="row">
+                <div class="col">
+                    <h2 style="font-size:30px; margin-bottom:20px; color:#7D2AE8;">A. Python</h2>
+                    <p>1. Download di python.org</p>
+                    <p>2. Centang "Add to PATH"</p>
+                    <p>3. Cek versi: <code>python --version</code></p>
+                </div>
+                <div class="col">
+                    <h2 style="font-size:30px; margin-bottom:20px; color:#00C4CC;">B. Jupyter</h2>
+                    <p>1. Install: <code>pip install notebook</code></p>
+                    <p>2. Jalankan: <code>jupyter notebook</code></p>
+                    <p>3. Browser terbuka otomatis</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Perceptron -->
+        <div class="slide">
+            <h1>UJICOBA PERCEPTRON (AND)</h1>
+            <p>Dataset logika AND dengan update bobot sederhana.</p>
+            <div class="code-card">
+X = np.array([[0,0],[0,1],[1,0],[1,1]])
+y = np.array([0,0,0,1])
+w = np.random.randn(2)
+lr = 0.1
+for epoch in range(20):
+    for i in range(len(X)):
+        z = np.dot(X[i], w)
+        output = 1 if z > 0 else 0
+        error = y[i] - output
+        w += lr * error * X[i]
+            </div>
+            <p><strong>Target:</strong> Output harus 0, 0, 0, 1.</p>
+        </div>
+
+        <!-- SLIDE 5: XOR & Sigmoid -->
+        <div class="slide">
+            <h1>XOR & FUNGSI AKTIVASI</h1>
+            <div class="row">
+                <div class="col">
+                    <p>Fungsi Sigmoid:</p>
+                    <div class="code-card">
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def sigmoid_deriv(a):
+    return a * (1 - a)
+                    </div>
+                </div>
+                <div class="col">
+                    <p>Dataset XOR:</p>
+                    <div class="code-card">
+X = [[0,0],[0,1],[1,0],[1,1]]
+y = [[0],[1],[1],[0]]
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Backprop Setup -->
+        <div class="slide">
+            <h1>KONFIGURASI BACKPROPAGATION</h1>
+            <p>Inisialisasi Parameter Jaringan:</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+                <ul>
+                    <li><strong>Input Neuron:</strong> 2</li>
+                    <li><strong>Hidden Neuron:</strong> 4</li>
+                    <li><strong>Output Neuron:</strong> 1</li>
+                    <li><strong>Learning Rate:</strong> 0.5</li>
+                </ul>
+                <div class="code-card">
+np.random.seed(1)
+W1 = np.random.randn(2, 4)
+W2 = np.random.randn(4, 1)
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Forward & Backward -->
+        <div class="slide">
+            <h1>ALUR TRAINING</h1>
+            <div class="code-card">
+# Forward Pass
+Z1 = np.dot(X, W1); A1 = sigmoid(Z1)
+Z2 = np.dot(A1, W2); A2 = sigmoid(Z2)
+loss = np.mean((y - A2)**2)
+
+# Backward Pass
+dA2 = y - A2
+dZ2 = dA2 * sigmoid_deriv(A2)
+dW2 = np.dot(A1.T, dZ2)
+dA1 = np.dot(dZ2, W2.T)
+dZ1 = dA1 * sigmoid_deriv(A1)
+dW1 = np.dot(X.T, dZ1)
+
+# Update Bobot
+W2 += lr * dW2; W1 += lr * dW1
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Visualisasi -->
+        <div class="slide">
+            <h1>VISUALISASI LOSS</h1>
+            <p>Monitoring penurunan error menggunakan Matplotlib.</p>
+            <div class="code-card">
+import matplotlib.pyplot as plt
+
+plt.plot(losses)
+plt.title("Loss per Epoch")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.show()
+            </div>
+            <p style="margin-top:20px;">Grafik harus <strong>menurun</strong> dan konvergen mendekati nol.</p>
+        </div>
+
+        <!-- SLIDE 9: Eksperimen -->
+        <div class="slide">
+            <h1>EKSPERIMEN PARAMETER</h1>
+            <p>Variabel yang perlu diubah untuk analisis kelas:</p>
+            <div class="row">
+                <div class="col" style="background:#f0f0f0; padding:30px; border-radius:16px; text-align:center;">
+                    <h2 style="font-size:32px; color:#7D2AE8;">Learning Rate</h2>
+                    <p style="text-align:center;">0.01, 0.1, 0.5</p>
+                </div>
+                <div class="col" style="background:#f0f0f0; padding:30px; border-radius:16px; text-align:center;">
+                    <h2 style="font-size:32px; color:#00C4CC;">Hidden Neuron</h2>
+                    <p style="text-align:center;">2, 4, 8</p>
+                </div>
+            </div>
+            <p style="text-align:center; margin-top:20px;">Bandingkan kecepatan konvergensi tiap percobaan.</p>
+        </div>
+
+        <!-- SLIDE 10: Checklist -->
+        <div class="slide">
+            <h1>CHECKLIST SEBELUM PRAKTIKUM</h1>
+            <div style="text-align: left; width: 100%; max-width: 600px; margin: 0 auto;">
+                <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                    <div style="width:20px; height:20px; border:2px solid #b2bec3; border-radius:4px; margin-right:15px;"></div>
+                    <p style="margin:0;">Python terinstall & berjalan</p>
+                </div>
+                <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                    <div style="width:20px; height:20px; border:2px solid #b2bec3; border-radius:4px; margin-right:15px;"></div>
+                    <p style="margin:0;">Semua library berhasil di-import</p>
+                </div>
+                <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                    <div style="width:20px; height:20px; border:2px solid #b2bec3; border-radius:4px; margin-right:15px;"></div>
+                    <p style="margin:0;">Tidak ada error saat plotting</p>
+                </div>
+                <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                    <div style="width:20px; height:20px; border:2px solid #b2bec3; border-radius:4px; margin-right:15px;"></div>
+                    <p style="margin:0;">Laptop stabil untuk 1000 epoch</p>
+                </div>
+            </div>
+            <h2 style="margin-top: 40px; color: #00C4CC;">SIAP MENGAJAR!</h2>
+        </div>
+
+        <!-- Page Indicator -->
+        <div class="page-indicator" id="pageIndicator">1 / 10</div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const pageIndicator = document.getElementById('pageIndicator');
+        const totalSlides = slides.length;
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+
+            // Looping logic
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+
+            updateSlide();
+        }
+
+        function updateSlide() {
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            slides[currentSlide].classList.add('active');
+
+            // Update Page Indicator
+            pageIndicator.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "ArrowRight") {
+                changeSlide(1);
+            } else if (event.key === "ArrowLeft") {
+                changeSlide(-1);
+            }
+        });
+
+        // Click Navigation (Left side = prev, Right side = next)
+        document.querySelector('.presentation-wrapper').addEventListener('click', function(e) {
+            const width = window.innerWidth;
+            const clickX = e.clientX;
+
+            if (clickX > width / 2) {
+                changeSlide(1);
+            } else {
+                changeSlide(-1);
+            }
+        });
+
+    </script>
+</body>
+</html>
