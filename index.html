@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menu Slide Presentasi</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-slate-900 to-slate-800 text-white min-h-screen flex items-center justify-center">
+
+<div class="bg-slate-800/90 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-2xl">
+    
+    <h1 class="text-3xl font-bold text-center text-cyan-400 mb-6">
+        📚 Menu Presentasi
+    </h1>
+
+    <div id="fileList" class="space-y-4">
+        <p class="text-center text-gray-400">Memuat file...</p>
+    </div>
+
+    <div class="mt-8 text-center text-sm text-gray-500">
+        © 2026 - Slide Repository
+    </div>
+</div>
+
+<script>
+const username = "minenc02";   // GANTI jika username berbeda
+const repo = "slide";          // GANTI jika nama repo berbeda
+const branch = "main";         // Biasanya main
+
+const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/?ref=${branch}`;
+
+fetch(apiURL)
+.then(response => response.json())
+.then(data => {
+    const container = document.getElementById("fileList");
+    container.innerHTML = "";
+
+    const htmlFiles = data.filter(file => 
+        file.name.endsWith(".html") && file.name !== "index.html"
+    );
+
+    if(htmlFiles.length === 0){
+        container.innerHTML = "<p class='text-center text-red-400'>Tidak ada file HTML ditemukan.</p>";
+        return;
+    }
+
+    htmlFiles.forEach(file => {
+        const link = document.createElement("a");
+        link.href = file.name;
+        link.className = "block bg-slate-700 hover:bg-cyan-600 transition p-4 rounded-xl text-lg font-semibold text-center";
+        link.textContent = file.name.replace(".html","").toUpperCase();
+        container.appendChild(link);
+    });
+})
+.catch(error => {
+    document.getElementById("fileList").innerHTML = 
+    "<p class='text-center text-red-400'>Gagal memuat file.</p>";
+});
+</script>
+
+</body>
+</html>
