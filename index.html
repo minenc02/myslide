@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto File Explorer</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body style="background:black;color:white;text-align:center;margin-top:100px;">
-<h1>HALAMAN BERHASIL</h1>
-<p>Jika ini muncul berarti GitHub Pages normal.</p>
+
+<body class="bg-slate-900 text-white min-h-screen p-10">
+
+<h1 class="text-3xl font-bold text-center mb-8">
+📂 Auto Scan Repository
+</h1>
+
+<div id="status" class="text-center text-yellow-400 mb-6">
+Memuat file...
+</div>
+
+<div id="fileList" class="grid gap-4 max-w-2xl mx-auto"></div>
+
+<script>
+async function loadFiles() {
+    const username = "minenc02";
+    const repo = "myslide";
+    const apiURL = `https://api.github.com/repos/${username}/${repo}/contents`;
+
+    try {
+        const response = await fetch(apiURL);
+
+        if (!response.ok) {
+            throw new Error("Repo harus PUBLIC atau API limit kena.");
+        }
+
+        const data = await response.json();
+
+        const container = document.getElementById("fileList");
+        const status = document.getElementById("status");
+        status.innerHTML = "";
+
+        data.forEach(item => {
+            if (item.type === "file") {
+
+                const link = document.createElement("a");
+                link.href = item.name;
+                link.className =
+                    "block bg-slate-700 hover:bg-blue-600 p-4 rounded-xl transition";
+                link.innerHTML = "📄 " + item.name;
+
+                container.appendChild(link);
+            }
+        });
+
+        if (container.innerHTML === "") {
+            container.innerHTML = "<p class='text-gray-400'>Tidak ada file.</p>";
+        }
+
+    } catch (error) {
+        document.getElementById("status").innerHTML =
+            "<span class='text-red-400'>❌ " + error.message + "</span>";
+    }
+}
+
+loadFiles();
+</script>
+
 </body>
 </html>
