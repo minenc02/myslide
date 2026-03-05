@@ -25,11 +25,12 @@
 </div>
 
 <script>
-const username = "minenc02";   // GANTI jika username berbeda
-const repo = "myslide";          // GANTI jika nama repo berbeda
-const branch = "main";         // Biasanya main
+const username = "minenc02";
+const repo = "minenc02.github.io"; 
+const branch = "main";
 
-const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/?ref=${branch}`;
+const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/myslide?ref=${branch}`;
+    
 
 fetch(apiURL)
 .then(response => response.json())
