@@ -1,53 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Slide</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Test</title>
 </head>
-
-<body class="bg-gradient-to-br from-slate-900 to-slate-800 text-white min-h-screen p-10">
-
-<h1 class="text-3xl font-bold text-center mb-8">
-📂 Semua File Slide
-</h1>
-
-<div id="fileList" class="grid gap-4 max-w-2xl mx-auto"></div>
-
-<script>
-async function loadFiles() {
-    try {
-        const response = await fetch("files.json");
-
-        if (!response.ok) {
-            throw new Error("files.json tidak ditemukan");
-        }
-
-        const files = await response.json();
-        const container = document.getElementById("fileList");
-
-        if (files.length === 0) {
-            container.innerHTML = "<p class='text-gray-400'>Tidak ada file.</p>";
-            return;
-        }
-
-        files.forEach(file => {
-            const link = document.createElement("a");
-            link.href = file;
-            link.className = "block bg-slate-700 hover:bg-blue-600 p-4 rounded-xl transition text-lg";
-            link.innerHTML = "📄 " + file;
-            container.appendChild(link);
-        });
-
-    } catch (error) {
-        document.getElementById("fileList").innerHTML =
-            "<p class='text-red-400'>❌ Error: " + error.message + "</p>";
-    }
-}
-
-loadFiles();
-</script>
-
+<body style="background:black;color:white;text-align:center;margin-top:100px;">
+<h1>HALAMAN BERHASIL</h1>
+<p>Jika ini muncul berarti GitHub Pages normal.</p>
 </body>
 </html>
