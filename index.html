@@ -3,22 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daftar Semua File</title>
-
+<title>Daftar File</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body {
-    background: linear-gradient(to bottom right, #0f172a, #1e293b);
-}
-</style>
-
 </head>
-<body class="min-h-screen text-white p-10">
+
+<body class="bg-slate-900 text-white min-h-screen p-10">
 
 <h1 class="text-3xl font-bold mb-6 text-center">
-📂 Semua File di Repository
+📂 Daftar File Repository
 </h1>
+
+<div id="status" class="text-center text-yellow-400 mb-4">
+Memuat data...
+</div>
 
 <div id="fileList" class="grid gap-3"></div>
 
@@ -28,30 +25,37 @@ async function loadFiles() {
 
     try {
         const response = await fetch(apiURL);
+
+        if (!response.ok) {
+            throw new Error("Gagal akses API: " + response.status);
+        }
+
         const data = await response.json();
 
+        document.getElementById("status").innerHTML = "";
+
         const fileList = document.getElementById("fileList");
-        fileList.innerHTML = "";
+
+        if (data.length === 0) {
+            fileList.innerHTML = "<p class='text-gray-400'>Tidak ada file ditemukan.</p>";
+            return;
+        }
 
         data.forEach(item => {
-            const link = document.createElement("a");
-            link.href = item.download_url;
-            link.target = "_blank";
-            link.className = "block bg-slate-800 hover:bg-slate-700 p-4 rounded-xl transition duration-300";
+            if (item.type === "file") {
+                const link = document.createElement("a");
+                link.href = item.html_url;
+                link.target = "_blank";
+                link.className = "block bg-slate-800 hover:bg-slate-700 p-4 rounded-xl transition";
 
-            link.innerHTML = `
-                <div class="flex justify-between items-center">
-                    <span>📄 ${item.name}</span>
-                    <span class="text-sm text-gray-400">${item.type}</span>
-                </div>
-            `;
-
-            fileList.appendChild(link);
+                link.innerHTML = `📄 ${item.name}`;
+                fileList.appendChild(link);
+            }
         });
 
     } catch (error) {
-        document.getElementById("fileList").innerHTML =
-            "<p class='text-red-400'>Gagal mengambil data dari GitHub API</p>";
+        document.getElementById("status").innerHTML =
+            "<span class='text-red-400'>❌ Error: " + error.message + "</span>";
     }
 }
 
