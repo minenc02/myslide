@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Crimping Kabel LAN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-content {
+            max-width: 90%;
+            max-height: 90%;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .slide-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Slide 1: Cover */
+        .cover-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .cover-icon {
+            font-size: 100px;
+            color: white;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cover-title {
+            font-size: 48px;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .cover-subtitle {
+            font-size: 24px;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .keyboard-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            color: white;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .key {
+            background: rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        /* Slide 2: Pengenalan */
+        .intro-grid {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .intro-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            min-width: 280px;
+            transition: transform 0.3s ease;
+        }
+
+        .intro-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            color: #667eea;
+            font-size: 28px;
+        }
+
+        .card-content {
+            font-size: 20px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        /* Slide 3-4: Pinout */
+        .pinout-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .rj45-visual {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .rj45-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .pin-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .pin-number {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .pin-color {
+            width: 120px;
+            height: 30px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+        }
+
+        .PO { background: linear-gradient(135deg, #ff9a00, #ff6200); }
+        .O { background: linear-gradient(135deg, #ff9a00, #ff6200); }
+        .PH { background: linear-gradient(135deg, #00ff88, #00cc66); }
+        .H { background: linear-gradient(135deg, #00ff88, #00cc66); }
+        .B { background: linear-gradient(135deg, #0099ff, #0066cc); }
+        .PB { background: linear-gradient(135deg, #0099ff, #0066cc); }
+        .PC { background: linear-gradient(135deg, #ff00ff, #cc00cc); }
+        .C { background: linear-gradient(135deg, #ff00ff, #cc00cc); }
+
+        .info-panel {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 300px;
+        }
+
+        .info-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            font-size: 20px;
+            color: #4a5568;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .info-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: 700;
+        }
+
+        /* Slide 5: Crossover */
+        .crossover-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .crossover-diagram {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .arrow-icon {
+            font-size: 40px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Slide 6: Tabel */
+        .comparison-table {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 18px;
+        }
+
+        .table-row:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        .pin-cell {
+            font-weight: 700;
+            color: #2d3748;
+            text-align: center;
+        }
+
+        .t568a-cell {
+            color: #e53e3e;
+            font-weight: 600;
+        }
+
+        .t568b-cell {
+            color: #3182ce;
+            font-weight: 600;
+        }
+
+        /* Slide 7: Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .tool-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tool-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tool-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .tool-desc {
+            font-size: 18px;
+            color: #4a5568;
+        }
+
+        /* Slide 8-10: Steps */
+        .steps-content {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            max-width: 800px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .step-card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .step-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .step-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .step-desc {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.3;
+        }
+
+        /* Slide 11: Tips */
+        .tips-content {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .tips-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tip-item {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 15px;
+            padding-left: 35px;
+            position: relative;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .tip-item:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Slide 12: Testing */
+        .testing-content {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tester-visual {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            min-width: 250px;
+        }
+
+        .tester-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .tester-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .tester-desc {
+            font-size: 18px;
+            color: #4a5568;
+        }
+
+        .testing-steps {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            min-width: 250px;
+        }
+
+        .testing-step {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 12px;
+            padding-left: 35px;
+            position: relative;
+            line-height: 1.3;
+            text-align: left;
+        }
+
+        .testing-step:before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            width: 25px;
+            height: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .testing-steps {
+            counter-reset: step-counter;
+        }
+
+        /* Slide 13: Conclusion */
+        .conclusion-content {
+            color: white;
+        }
+
+        .conclusion-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+
+        .conclusion-points {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .conclusion-point {
+            font-size: 18px;
+            color: #2d3748;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: #f7fafc;
+            border-radius: 12px;
+        }
+
+        .thank-you {
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 30px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Slide Indicator */
+        .slide-indicator {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Cover -->
+        <div class="slide active">
+            <div class="slide-content">
+                <div class="cover-content">
+                    <i class="fas fa-ethernet cover-icon"></i>
+                    <h1 class="cover-title">TUTORIAL CRIMPING KABEL LAN</h1>
+                    <p class="cover-subtitle">Panduan Lengkap Membuat Kabel Jaringan</p>
+                </div>
+            </div>
+            <div class="keyboard-hint">
+                <span>Navigasi:</span>
+                <span class="key">←</span> Sebelumnya
+                <span class="key">→</span> Selanjutnya
+                <span class="key">Home</span> Awal
+                <span class="key">End</span> Akhir
+            </div>
+        </div>
+
+        <!-- Slide 2: Pengenalan -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">JENIS KABEL LAN</h2>
+                <div class="intro-grid">
+                    <div class="intro-card">
+                        <div class="card-title">
+                            <i class="fas fa-arrow-right card-icon"></i>
+                            Straight-Through
+                        </div>
+                        <div class="card-content">
+                            T568B ↔ T568B<br>
+                            Device berbeda
+                        </div>
+                    </div>
+                    <div class="intro-card">
+                        <div class="card-title">
+                            <i class="fas fa-exchange-alt card-icon"></i>
+                            Crossover
+                        </div>
+                        <div class="card-content">
+                            T568A ↔ T568B<br>
+                            Device sejenis
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: T568B -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">STANDAR T568B</h2>
+                <div class="pinout-container">
+                    <div class="rj45-visual">
+                        <div class="rj45-title">Pinout T568B</div>
+                        <div class="pin-row">
+                            <div class="pin-number">1</div>
+                            <div class="pin-color PO">PO</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">2</div>
+                            <div class="pin-color O">O</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">3</div>
+                            <div class="pin-color PH">PH</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">4</div>
+                            <div class="pin-color B">B</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">5</div>
+                            <div class="pin-color PB">PB</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">6</div>
+                            <div class="pin-color H">H</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">7</div>
+                            <div class="pin-color PC">PC</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">8</div>
+                            <div class="pin-color C">C</div>
+                        </div>
+                    </div>
+                    <div class="info-panel">
+                        <div class="info-title">Karakteristik</div>
+                        <ul class="info-list">
+                            <li class="info-item">Pin 1-8 terhubung lurus</li>
+                            <li class="info-item">Tidak ada perubahan</li>
+                            <li class="info-item">Standar paling umum</li>
+                            <li class="info-item">PC ke Switch/Router</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: T568A -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">STANDAR T568A</h2>
+                <div class="pinout-container">
+                    <div class="rj45-visual">
+                        <div class="rj45-title">Pinout T568A</div>
+                        <div class="pin-row">
+                            <div class="pin-number">1</div>
+                            <div class="pin-color PH">PH</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">2</div>
+                            <div class="pin-color H">H</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">3</div>
+                            <div class="pin-color PO">PO</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">4</div>
+                            <div class="pin-color B">B</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">5</div>
+                            <div class="pin-color PB">PB</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">6</div>
+                            <div class="pin-color O">O</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">7</div>
+                            <div class="pin-color PC">PC</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">8</div>
+                            <div class="pin-color C">C</div>
+                        </div>
+                    </div>
+                    <div class="info-panel">
+                        <div class="info-title">Perbedaan</div>
+                        <ul class="info-list">
+                            <li class="info-item">Pin 1,2: Hijau</li>
+                            <li class="info-item">Pin 3,6: Orange</li>
+                            <li class="info-item">Standar lebih lama</li>
+                            <li class="info-item">Untuk crossover</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Crossover -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">KABEL CROSSOVER</h2>
+                <div class="crossover-content">
+                    <div class="crossover-diagram">
+                        <div class="rj45-visual">
+                            <div class="rj45-title">T568B</div>
+                            <div class="pin-row">
+                                <div class="pin-number">1</div>
+                                <div class="pin-color PO">PO</div>
+                            </div>
+                            <div class="pin-row">
+                                <div class="pin-number">2</div>
+                                <div class="pin-color O">O</div>
+                            </div>
+                            <div class="pin-row">
+                                <div class="pin-number">3</div>
+                                <div class="pin-color PH">PH</div>
+                            </div>
+                            <div class="pin-row">
+                                <div class="pin-number">6</div>
+                                <div class="pin-color H">H</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-exchange-alt arrow-icon"></i>
+                        <div class="rj45-visual">
+                            <div class="rj45-title">T568A</div>
+                            <div class="pin-row">
+                                <div class="pin-number">1</div>
+                                <div class="pin-color PH">PH</div>
+                            </div>
+                            <div class="pin-row">
+                                <div class="pin-number">2</div>
+                                <div class="pin-color H">H</div>
+                            </div>
+                            <div class="pin-row">
+                                <div class="pin-number">3</div>
+                                <div class="pin-color PO">PO</div>
+                            </div>
+                            <div class="pin-row">
+                                <div class="pin-number">6</div>
+                                <div class="pin-color O">O</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-panel">
+                        <div class="info-title">Pin Disilang</div>
+                        <ul class="info-list">
+                            <li class="info-item">Pin 1 ↔ Pin 3</li>
+                            <li class="info-item">Pin 2 ↔ Pin 6</li>
+                            <li class="info-item">PC ke PC</li>
+                            <li class="info-item">Switch ke Switch</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Tabel Perbandingan -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">TABEL PERBANDINGAN</h2>
+                <div class="comparison-table">
+                    <div class="table-header">
+                        <div>Pin</div>
+                        <div>T568A</div>
+                        <div>T568B</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">1</div>
+                        <div class="t568a-cell">PH</div>
+                        <div class="t568b-cell">PO</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">2</div>
+                        <div class="t568a-cell">H</div>
+                        <div class="t568b-cell">O</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">3</div>
+                        <div class="t568a-cell">PO</div>
+                        <div class="t568b-cell">PH</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">4</div>
+                        <div class="t568a-cell">B</div>
+                        <div class="t568b-cell">B</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">5</div>
+                        <div class="t568a-cell">PB</div>
+                        <div class="t568b-cell">PB</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">6</div>
+                        <div class="t568a-cell">O</div>
+                        <div class="t568b-cell">H</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">7</div>
+                        <div class="t568a-cell">PC</div>
+                        <div class="t568b-cell">PC</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">8</div>
+                        <div class="t568a-cell">C</div>
+                        <div class="t568b-cell">C</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Alat & Bahan -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">ALAT & BAHAN</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <i class="fas fa-ethernet tool-icon"></i>
+                        <div class="tool-name">Kabel UTP</div>
+                        <div class="tool-desc">Cat5e/Cat6</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-plug tool-icon"></i>
+                        <div class="tool-name">RJ45</div>
+                        <div class="tool-desc">2 pcs</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-tools tool-icon"></i>
+                        <div class="tool-name">Tang Crimp</div>
+                        <div class="tool-desc">Khusus RJ45</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-cut tool-icon"></i>
+                        <div class="tool-name">Tang Potong</div>
+                        <div class="tool-desc">Untuk kabel</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-scroll tool-icon"></i>
+                        <div class="tool-name">Stripper</div>
+                        <div class="tool-desc">Mengupas isolasi</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-tachometer-alt tool-icon"></i>
+                        <div class="tool-name">LAN Tester</div>
+                        <div class="tool-desc">Test koneksi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Langkah 1-2 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">LANGKAH 1-2</h2>
+                <div class="steps-content">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <i class="fas fa-ruler step-icon"></i>
+                        <div class="step-title">Potong Kabel</div>
+                        <div class="step-desc">Potong kabel lurus dengan tang potong</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <i class="fas fa-scroll step-icon"></i>
+                        <div class="step-title">Kupas Isolasi</div>
+                        <div class="step-desc">Kupas ±2-3 cm, jangan rusak kabel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Langkah 3-4 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">LANGKAH 3-4</h2>
+                <div class="steps-content">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <i class="fas fa-sort-amount-down step-icon"></i>
+                        <div class="step-title">Urutkan Warna</div>
+                        <div class="step-desc">Luruskan & urut sesuai T568A/B</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <i class="fas fa-cut step-icon"></i>
+                        <div class="step-title">Ratakan Ujung</div>
+                        <div class="step-desc">Potong hingga ±1.5 cm</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Langkah 5-6 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">LANGKAH 5-6</h2>
+                <div class="steps-content">
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <i class="fas fa-plug step-icon"></i>
+                        <div class="step-title">Masukkan RJ45</div>
+                        <div class="step-desc">Pastikan semua kabel masuk</div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <i class="fas fa-tools step-icon"></i>
+                        <div class="step-title">Crimp</div>
+                        <div class="step-desc">Tekan hingga klik 2x</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Tips -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="tips-content">
+                    <div class="tips-title">TIPS & TRIK</div>
+                    <ul class="tips-list">
+                        <li class="tip-item">Posisi clip menghadap bawah saat crimping</li>
+                        <li class="tip-item">Pin 1 di sebelah kiri jika clip di bawah</li>
+                        <li class="tip-item">Siapkan konektor ekstra 10-20%</li>
+                        <li class="tip-item">Periksa urutan sebelum crimp</li>
+                        <li class="tip-item">Gunakan kabel berkualitas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Testing -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">TESTING KABEL</h2>
+                <div class="testing-content">
+                    <div class="tester-visual">
+                        <i class="fas fa-tachometer-alt tester-icon"></i>
+                        <div class="tester-title">LAN Tester</div>
+                        <div class="tester-desc">Periksa semua pin terhubung</div>
+                    </div>
+                    <div class="testing-steps">
+                        <div class="testing-step">Colok kabel ke tester</div>
+                        <div class="testing-step">Nyalakan tester</div>
+                        <div class="testing-step">Perhatikan lampu LED</div>
+                        <div class="testing-step">Semua pin nyala berurutan</div>
+                        <div class="testing-step">Jika mati, buat ulang</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Kesimpulan -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="conclusion-content">
+                    <h2 class="conclusion-title">KESIMPULAN</h2>
+                    <div class="conclusion-points">
+                        <div class="conclusion-point">Straight-Through: T568B ↔ T568B</div>
+                        <div class="conclusion-point">Crossover: T568A ↔ T568B</div>
+                        <div class="conclusion-point">Praktek membuat sempurna</div>
+                        <div class="conclusion-point">Selalu test kabel</div>
+                    </div>
+                    <div class="thank-you">TERIMA KASIH!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide Indicator -->
+        <div class="slide-indicator">
+            <span id="currentSlide">1</span> / <span id="totalSlides">13</span>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const currentSlideSpan = document.getElementById('currentSlide');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+
+        // Initialize
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            currentSlideSpan.textContent = index + 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            
+            if (currentSlideIndex < 0) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex >= totalSlides) {
+                currentSlideIndex = totalSlides - 1;
+            }
+            
+            showSlide(currentSlideIndex);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(1);
+            } else if (e.key === 'Home') {
+                currentSlideIndex = 0;
+                showSlide(currentSlideIndex);
+            } else if (e.key === 'End') {
+                currentSlideIndex = totalSlides - 1;
+                showSlide(currentSlideIndex);
+            }
+        });
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                changeSlide(1); // Swipe left - next slide
+            }
+            if (touchEndX > touchStartX + 50) {
+                changeSlide(-1); // Swipe right - previous slide
+            }
+        }
+    </script>
+</body>
+</html>
