@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Praktikum Crimping Kabel LAN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            background: #ffffff;
+            padding: 40px;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide-content {
+            max-width: 1200px;
+            width: 100%;
+            height: 90%;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .slide-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        /* Slide 1: Cover */
+        .cover-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 30px;
+        }
+
+        .cover-icon {
+            font-size: 120px;
+            color: #667eea;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cover-title {
+            font-size: 52px;
+            font-weight: 900;
+            text-align: center;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .cover-subtitle {
+            font-size: 28px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        /* Slide 2: Pengenalan */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .intro-card {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            border: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .intro-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .card-icon {
+            color: #667eea;
+            font-size: 32px;
+        }
+
+        .card-content {
+            font-size: 20px;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+
+        /* Pinout styles */
+        .pinout-container {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .rj45-visual {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 30px;
+            border: 3px solid #e2e8f0;
+            min-width: 300px;
+        }
+
+        .rj45-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pin-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .pin-number {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .pin-color {
+            width: 140px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .PO { background: linear-gradient(135deg, #ff9a00, #ff6200); }
+        .O { background: linear-gradient(135deg, #ff9a00, #ff6200); }
+        .PH { background: linear-gradient(135deg, #00ff88, #00cc66); }
+        .H { background: linear-gradient(135deg, #00ff88, #00cc66); }
+        .B { background: linear-gradient(135deg, #0099ff, #0066cc); }
+        .PB { background: linear-gradient(135deg, #0099ff, #0066cc); }
+        .PC { background: linear-gradient(135deg, #ff00ff, #cc00cc); }
+        .C { background: linear-gradient(135deg, #ff00ff, #cc00cc); }
+
+        .info-panel {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 30px;
+            border: 3px solid #e2e8f0;
+            max-width: 350px;
+        }
+
+        .info-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-item {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 12px;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .info-item:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #48bb78;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .diagram-image {
+            max-width: 400px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        /* Crossover */
+        .crossover-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .crossover-diagram {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .arrow-icon {
+            font-size: 48px;
+            color: #667eea;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Table */
+        .comparison-table {
+            background: #f7fafc;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 3px solid #e2e8f0;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 20px;
+        }
+
+        .table-row:nth-child(even) {
+            background: #edf2f7;
+        }
+
+        .pin-cell {
+            font-weight: 700;
+            color: #2d3748;
+            text-align: center;
+        }
+
+        .t568a-cell {
+            color: #38a169;
+            font-weight: 700;
+        }
+
+        .t568b-cell {
+            color: #3182ce;
+            font-weight: 700;
+        }
+
+        /* Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .tool-card {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .tool-image {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            border-radius: 10px;
+        }
+
+        .tool-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .tool-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .tool-desc {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        /* Steps */
+        .steps-content {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: stretch;
+        }
+
+        .step-card {
+            flex: 1;
+            min-width: 350px;
+            max-width: 500px;
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 3px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step-image {
+            width: 100%;
+            max-width: 300px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 10px;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .step-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .step-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .step-desc {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        /* Tips */
+        .tips-content {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 40px;
+            border: 3px solid #e2e8f0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .tips-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .tips-list {
+            list-style: none;
+        }
+
+        .tip-item {
+            font-size: 20px;
+            color: #4a5568;
+            margin-bottom: 20px;
+            padding-left: 50px;
+            position: relative;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .tip-item:before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+            font-size: 28px;
+        }
+
+        /* Testing */
+        .testing-content {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .tester-visual {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            border: 3px solid #e2e8f0;
+            min-width: 300px;
+        }
+
+        .tester-image {
+            width: 100%;
+            max-width: 250px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .tester-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .tester-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .tester-desc {
+            font-size: 18px;
+            color: #4a5568;
+        }
+
+        .testing-steps {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 30px;
+            border: 3px solid #e2e8f0;
+            min-width: 300px;
+            counter-reset: step-counter;
+        }
+
+        .testing-step {
+            font-size: 18px;
+            color: #4a5568;
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .testing-step:before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: 0;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Conclusion */
+        .conclusion-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        .conclusion-title {
+            font-size: 42px;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 40px;
+        }
+
+        .conclusion-points {
+            background: #f7fafc;
+            border-radius: 20px;
+            padding: 40px;
+            border: 3px solid #e2e8f0;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .conclusion-point {
+            font-size: 22px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            text-align: left;
+        }
+
+        .thank-you {
+            font-size: 48px;
+            font-weight: 800;
+            color: #667eea;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Navigation Buttons - Clean without text */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 80px;
+            cursor: pointer;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 100;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .nav-btn:hover {
+            background: rgba(102, 126, 234, 1);
+            width: 60px;
+        }
+
+        .nav-btn.prev {
+            left: 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .nav-btn.next {
+            right: 0;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Slide Indicator - Format: no/total */
+        .slide-indicator {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(102, 126, 234, 0.9);
+            padding: 12px 25px;
+            border-radius: 25px;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 100;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .two-column {
+            display: flex;
+            gap: 40px;
+            width: 100%;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .column {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 20px;
+            }
+            
+            .slide-title {
+                font-size: 28px;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .two-column {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                width: 40px;
+                height: 60px;
+                font-size: 18px;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Navigation Buttons -->
+        <button class="nav-btn prev" onclick="changeSlide(-1)" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="nav-btn next" onclick="changeSlide(1)" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- Slide Indicator -->
+        <div class="slide-indicator">
+            <span id="currentSlide">1</span>/<span id="totalSlides">13</span>
+        </div>
+
+        <!-- Slide 1: Cover -->
+        <div class="slide active">
+            <div class="slide-content">
+                <div class="cover-content">
+                    <i class="fas fa-ethernet cover-icon"></i>
+                    <h1 class="cover-title">PRAKTIKUM CRIMPING KABEL LAN</h1>
+                    <p class="cover-subtitle">Panduan Lengkap dengan Langkah Praktik</p>
+                    <div style="margin-top: 30px; padding: 20px; background: #f7fafc; border-radius: 15px; border: 3px solid #e2e8f0;">
+                        <p style="font-size: 18px; color: #4a5568;"><strong>Mata Kuliah:</strong> Jaringan Komputer</p>
+                        <p style="font-size: 18px; color: #4a5568;"><strong>Topik:</strong> Pembuatan Kabel Straight & Crossover</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Pengenalan -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Jenis Kabel LAN</h2>
+                <div class="intro-grid">
+                    <div class="intro-card">
+                        <div class="card-title">
+                            <i class="fas fa-arrow-right card-icon"></i>
+                            Straight-Through
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <img src="https://kimi-web-img.moonshot.cn/img/cdn.shopify.com/e236b3af56407420fe719d0193f10ddce0a88441.jpg" style="width: 100%; max-width: 300px; border-radius: 10px;" alt="Straight Through Diagram">
+                        </div>
+                        <div class="card-content">
+                            <strong>T568B ↔ T568B</strong><br>
+                            Untuk device berbeda:<br>
+                            PC ↔ Switch/Router
+                        </div>
+                    </div>
+                    <div class="intro-card">
+                        <div class="card-title">
+                            <i class="fas fa-exchange-alt card-icon"></i>
+                            Crossover
+                        </div>
+                        <div style="margin: 20px 0;">
+                            <img src="https://kimi-web-img.moonshot.cn/img/www.flukenetworks.com/77902f80308f74aa9cac5b37fe8aa2596c629a0e.jpg" style="width: 100%; max-width: 300px; border-radius: 10px;" alt="Crossover Diagram">
+                        </div>
+                        <div class="card-content">
+                            <strong>T568A ↔ T568B</strong><br>
+                            Untuk device sejenis:<br>
+                            PC ↔ PC, Switch ↔ Switch
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: T568B -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Standar T568B (Straight)</h2>
+                <div class="pinout-container">
+                    <div class="rj45-visual">
+                        <div class="rj45-title">Urutan Warna T568B</div>
+                        <div class="pin-row">
+                            <div class="pin-number">1</div>
+                            <div class="pin-color PO">Putih-Orange</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">2</div>
+                            <div class="pin-color O">Orange</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">3</div>
+                            <div class="pin-color PH">Putih-Hijau</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">4</div>
+                            <div class="pin-color B">Biru</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">5</div>
+                            <div class="pin-color PB">Putih-Biru</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">6</div>
+                            <div class="pin-color H">Hijau</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">7</div>
+                            <div class="pin-color PC">Putih-Coklat</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">8</div>
+                            <div class="pin-color C">Coklat</div>
+                        </div>
+                    </div>
+                    <div class="two-column" style="flex-direction: column; gap: 20px;">
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.optcore.net/624057fe0dbba6bf9f19868f03e6c1a4df26f2fc.png" class="diagram-image" alt="RJ45 T568B Connector">
+                        <div class="info-panel">
+                            <div class="info-title">Karakteristik</div>
+                            <ul class="info-list">
+                                <li class="info-item">Standar paling umum digunakan</li>
+                                <li class="info-item">Pin 1-8 terhubung lurus</li>
+                                <li class="info-item">Digunakan untuk kabel straight</li>
+                                <li class="info-item">Kompatibel dengan kebanyakan device</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: T568A -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Standar T568A (Crossover)</h2>
+                <div class="pinout-container">
+                    <div class="rj45-visual">
+                        <div class="rj45-title">Urutan Warna T568A</div>
+                        <div class="pin-row">
+                            <div class="pin-number">1</div>
+                            <div class="pin-color PH">Putih-Hijau</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">2</div>
+                            <div class="pin-color H">Hijau</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">3</div>
+                            <div class="pin-color PO">Putih-Orange</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">4</div>
+                            <div class="pin-color B">Biru</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">5</div>
+                            <div class="pin-color PB">Putih-Biru</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">6</div>
+                            <div class="pin-color O">Orange</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">7</div>
+                            <div class="pin-color PC">Putih-Coklat</div>
+                        </div>
+                        <div class="pin-row">
+                            <div class="pin-number">8</div>
+                            <div class="pin-color C">Coklat</div>
+                        </div>
+                    </div>
+                    <div class="two-column" style="flex-direction: column; gap: 20px;">
+                        <img src="https://kimi-web-img.moonshot.cn/img/cdn.shopify.com/e236b3af56407420fe719d0193f10ddce0a88441.jpg" class="diagram-image" alt="T568A vs T568B Comparison">
+                        <div class="info-panel">
+                            <div class="info-title">Perbedaan dengan T568B</div>
+                            <ul class="info-list">
+                                <li class="info-item">Pin 1,2: Hijau (bukan Orange)</li>
+                                <li class="info-item">Pin 3,6: Orange (bukan Hijau)</li>
+                                <li class="info-item">Standar yang lebih lama</li>
+                                <li class="info-item">Digunakan untuk kabel crossover</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Crossover Detail -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Kabel Crossover - Pin yang Disilang</h2>
+                <div class="crossover-content">
+                    <div class="crossover-diagram">
+                        <div class="rj45-visual">
+                            <div class="rj45-title">T568B (Sisi A)</div>
+                            <div class="pin-row"><div class="pin-number">1</div><div class="pin-color PO">Putih-O</div></div>
+                            <div class="pin-row"><div class="pin-number">2</div><div class="pin-color O">Orange</div></div>
+                            <div class="pin-row"><div class="pin-number">3</div><div class="pin-color PH">Putih-H</div></div>
+                            <div class="pin-row"><div class="pin-number">6</div><div class="pin-color H">Hijau</div></div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; align-items: center;">
+                            <i class="fas fa-exchange-alt arrow-icon"></i>
+                            <div style="margin-top: 20px; padding: 15px; background: #f7fafc; border-radius: 10px; border: 2px solid #667eea;">
+                                <p style="font-size: 16px; color: #2d3748; font-weight: 700;">Pin 1 ↔ 3</p>
+                                <p style="font-size: 16px; color: #2d3748; font-weight: 700;">Pin 2 ↔ 6</p>
+                            </div>
+                        </div>
+                        <div class="rj45-visual">
+                            <div class="rj45-title">T568A (Sisi B)</div>
+                            <div class="pin-row"><div class="pin-number">1</div><div class="pin-color PH">Putih-H</div></div>
+                            <div class="pin-row"><div class="pin-number">2</div><div class="pin-color H">Hijau</div></div>
+                            <div class="pin-row"><div class="pin-number">3</div><div class="pin-color PO">Putih-O</div></div>
+                            <div class="pin-row"><div class="pin-number">6</div><div class="pin-color O">Orange</div></div>
+                        </div>
+                    </div>
+                    <div class="info-panel" style="margin-top: 20px; max-width: 600px;">
+                        <div class="info-title">Aplikasi Crossover</div>
+                        <ul class="info-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <li class="info-item">PC ke PC</li>
+                            <li class="info-item">Switch ke Switch</li>
+                            <li class="info-item">Router ke Router</li>
+                            <li class="info-item">Hub ke Hub</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Tabel Perbandingan -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Tabel Perbandingan T568A vs T568B</h2>
+                <div class="comparison-table">
+                    <div class="table-header">
+                        <div>Pin</div>
+                        <div>T568A</div>
+                        <div>T568B</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">1</div>
+                        <div class="t568a-cell">Putih-Hijau</div>
+                        <div class="t568b-cell">Putih-Orange</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">2</div>
+                        <div class="t568a-cell">Hijau</div>
+                        <div class="t568b-cell">Orange</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">3</div>
+                        <div class="t568a-cell">Putih-Orange</div>
+                        <div class="t568b-cell">Putih-Hijau</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">4</div>
+                        <div class="t568a-cell">Biru</div>
+                        <div class="t568b-cell">Biru</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">5</div>
+                        <div class="t568a-cell">Putih-Biru</div>
+                        <div class="t568b-cell">Putih-Biru</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">6</div>
+                        <div class="t568a-cell">Orange</div>
+                        <div class="t568b-cell">Hijau</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">7</div>
+                        <div class="t568a-cell">Putih-Coklat</div>
+                        <div class="t568b-cell">Putih-Coklat</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="pin-cell">8</div>
+                        <div class="t568a-cell">Coklat</div>
+                        <div class="t568b-cell">Coklat</div>
+                    </div>
+                </div>
+                <div style="margin-top: 30px; padding: 20px; background: #f7fafc; border-radius: 15px; border-left: 5px solid #667eea;">
+                    <p style="font-size: 18px; color: #4a5568;"><strong>Catatan:</strong> Hanya pin 1,2,3,6 yang berbeda. Pin 4,5,7,8 sama (tidak digunakan untuk data 10/100 Mbps).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Alat & Bahan -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Alat & Bahan yang Diperlukan</h2>
+                <div class="tools-grid">
+                    <div class="tool-card">
+                        <i class="fas fa-ethernet tool-icon"></i>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.wikihow.com/c49a76cf860b38b2054eca1783cbea17e0f03d41.jpg" class="tool-image" alt="Kabel UTP">
+                        <div class="tool-name">Kabel UTP</div>
+                        <div class="tool-desc">Cat5e atau Cat6<br>Sesuai kebutuhan panjang</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-plug tool-icon"></i>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.optcore.net/624057fe0dbba6bf9f19868f03e6c1a4df26f2fc.png" class="tool-image" alt="RJ45 Connector" style="height: 120px;">
+                        <div class="tool-name">Konektor RJ45</div>
+                        <div class="tool-desc">2 pcs per kabel<br>Siapkan cadangan 20%</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-tools tool-icon"></i>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.flukenetworks.com/bd53b1eceeb03f6cad2efed901db10ea58e0a12a.jpg" class="tool-image" alt="Tang Crimp">
+                        <div class="tool-name">Tang Crimping</div>
+                        <div class="tool-desc">Khusus RJ45<br>Dengan ratchet lock</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-cut tool-icon"></i>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.l-com.com/db2a6fc0d32685ec0f68baed721d5087babcbc32.jpg" class="tool-image" alt="Cable Stripper">
+                        <div class="tool-name">Cable Stripper</div>
+                        <div class="tool-desc">Mengupas isolasi<br>Tanpa merusak kabel</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-ruler tool-icon"></i>
+                        <div class="tool-icon" style="font-size: 48px; margin-bottom: 15px;">✂️</div>
+                        <div class="tool-name">Tang Potong</div>
+                        <div class="tool-desc">Meratakan ujung kabel<br>Potong rapi</div>
+                    </div>
+                    <div class="tool-card">
+                        <i class="fas fa-tachometer-alt tool-icon"></i>
+                        <img src="https://kimi-web-img.moonshot.cn/img/i5.walmartimages.com/60bba1d3aefb0720a60fb2f2b35115eaac92e762.jpeg" class="tool-image" alt="LAN Tester">
+                        <div class="tool-name">LAN Tester</div>
+                        <div class="tool-desc">Memeriksa koneksi<br>Semua pin</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Langkah 1-2 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Langkah 1-2: Persiapan Kabel</h2>
+                <div class="steps-content">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.wikihow.com/c49a76cf860b38b2054eca1783cbea17e0f03d41.jpg" class="step-image" alt="Potong Kabel">
+                        <i class="fas fa-ruler step-icon"></i>
+                        <div class="step-title">Potong Kabel</div>
+                        <div class="step-desc">
+                            • Tentukan panjang kabel yang dibutuhkan<br>
+                            • Potong lurus menggunakan tang potong<br>
+                            • Pastikan ujung rapi tanpa serat putus
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.l-com.com/db2a6fc0d32685ec0f68baed721d5087babcbc32.jpg" class="step-image" alt="Kupas Isolasi">
+                        <i class="fas fa-scroll step-icon"></i>
+                        <div class="step-title">Kupas Isolasi Luar</div>
+                        <div class="step-desc">
+                            • Gunakan cable stripper<br>
+                            • Kupas ±2-3 cm dari ujung<br>
+                            • Hati-hati jangan sampai merusak kabel dalam
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Langkah 3-4 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Langkah 3-4: Penyusunan & Pemotongan</h2>
+                <div class="steps-content">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.wikihow.com/c49a76cf860b38b2054eca1783cbea17e0f03d41.jpg" class="step-image" alt="Urutkan Warna">
+                        <i class="fas fa-sort-amount-down step-icon"></i>
+                        <div class="step-title">Urutkan Warna</div>
+                        <div class="step-desc">
+                            • Luruskan 8 kabel putih<br>
+                            • Urutkan sesuai standar T568A atau T568B<br>
+                            • Pegang erat agar tidak berubah posisi
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-image" style="display: flex; align-items: center; justify-content: center; background: #f7fafc; font-size: 60px; color: #667eea;">
+                            ✂️
+                        </div>
+                        <i class="fas fa-cut step-icon"></i>
+                        <div class="step-title">Ratakan Ujung</div>
+                        <div class="step-desc">
+                            • Potong ujung kabel rata<br>
+                            • Panjang ±1.5 cm dari isolasi<br>
+                            • Semua kabel sama panjang
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Langkah 5-6 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Langkah 5-6: Crimping</h2>
+                <div class="steps-content">
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.optcore.net/624057fe0dbba6bf9f19868f03e6c1a4df26f2fc.png" class="step-image" alt="Masukkan RJ45">
+                        <i class="fas fa-plug step-icon"></i>
+                        <div class="step-title">Masukkan ke RJ45</div>
+                        <div class="step-desc">
+                            • Clip RJ45 menghadap bawah<br>
+                            • Masukkan kabel sampai ujung<br>
+                            • Pastikan semua kabel sampai ke ujung logam
+                        </div>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-number">6</div>
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.flukenetworks.com/bd53b1eceeb03f6cad2efed901db10ea58e0a12a.jpg" class="step-image" alt="Crimping">
+                        <i class="fas fa-tools step-icon"></i>
+                        <div class="step-title">Crimping</div>
+                        <div class="step-desc">
+                            • Masukkan ke tang crimping<br>
+                            • Tekan kuat hingga terdengar "klik"<br>
+                            • Pastikan pin menembus kabel
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Tips -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="tips-content">
+                    <div class="tips-title">💡 Tips & Trik Crimping</div>
+                    <ul class="tips-list">
+                        <li class="tip-item">
+                            <strong>Posisi Clip:</strong> Selalu pastikan clip RJ45 menghadap ke bawah saat crimping, dengan pin 1 di sebelah kiri.
+                        </li>
+                        <li class="tip-item">
+                            <strong>Panjang Kabel:</strong> Jangan terlalu panjang memotong isolasi (max 3 cm) agar kabel tidak mudah patah.
+                        </li>
+                        <li class="tip-item">
+                            <strong>Cadangan:</strong> Siapkan konektor ekstra 10-20% karena sering gagal pada percobaan pertama.
+                        </li>
+                        <li class="tip-item">
+                            <strong>Pemeriksaan:</strong> Periksa urutan warna sekali lagi sebelum crimping, sulit diperbaiki setelah ditekan.
+                        </li>
+                        <li class="tip-item">
+                            <strong>Kualitas:</strong> Gunakan kabel dan konektor berkualitas baik untuk hasil yang optimal dan tahan lama.
+                        </li>
+                        <li class="tip-item">
+                            <strong>Tekanan:</strong> Tekan tang crimping dengan kuat dan pastikan hingga bunyi klik terdengar jelas.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Testing -->
+        <div class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title">Testing Kabel dengan LAN Tester</h2>
+                <div class="testing-content">
+                    <div class="tester-visual">
+                        <img src="https://kimi-web-img.moonshot.cn/img/www.thecimpleco.com/77a415363e64193565d9f1dbc2f9e851695511bc.jpg" class="tester-image" alt="LAN Tester">
+                        <i class="fas fa-tachometer-alt tester-icon"></i>
+                        <div class="tester-title">LAN Tester</div>
+                        <div class="tester-desc">
+                            Master & Remote unit<br>
+                            LED indicator per pin
+                        </div>
+                    </div>
+                    <div class="testing-steps">
+                        <div class="testing-step">Colokkan kedua ujung kabel ke tester</div>
+                        <div class="testing-step">Nyalakan tester (switch ON)</div>
+                        <div class="testing-step">Perhatikan urutan lampu LED</div>
+                        <div class="testing-step">Semua pin harus nyala berurutan 1-8</div>
+                        <div class="testing-step">Jika ada yang mati, crimping ulang</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Kesimpulan -->
+        <div class="slide">
+            <div class="slide-content">
+                <div class="conclusion-content">
+                    <h2 class="conclusion-title">Kesimpulan</h2>
+                    <div class="conclusion-points">
+                        <div class="conclusion-point">✓ <strong>Straight-Through:</strong> T568B ↔ T568B (device berbeda)</div>
+                        <div class="conclusion-point">✓ <strong>Crossover:</strong> T568A ↔ T568B (device sejenis)</div>
+                        <div class="conclusion-point">✓ <strong>Praktek:</strong> Membuat sempurna memerlukan latihan</div>
+                        <div class="conclusion-point">✓ <strong>Testing:</strong> Selalu periksa dengan LAN tester</div>
+                    </div>
+                    <div class="thank-you">TERIMA KASIH!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const currentSlideSpan = document.getElementById('currentSlide');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Initialize
+        totalSlidesSpan.textContent = totalSlides;
+        updateButtons();
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[index].classList.add('active');
+            currentSlideSpan.textContent = index + 1;
+            updateButtons();
+        }
+
+        function changeSlide(direction) {
+            const newIndex = currentSlideIndex + direction;
+            
+            if (newIndex >= 0 && newIndex < totalSlides) {
+                currentSlideIndex = newIndex;
+                showSlide(currentSlideIndex);
+            }
+        }
+
+        function updateButtons() {
+            prevBtn.disabled = currentSlideIndex === 0;
+            nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                changeSlide(-1);
+            } else if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+                e.preventDefault();
+                changeSlide(1);
+            } else if (e.key === 'Home') {
+                currentSlideIndex = 0;
+                showSlide(currentSlideIndex);
+            } else if (e.key === 'End') {
+                currentSlideIndex = totalSlides - 1;
+                showSlide(currentSlideIndex);
+            }
+        });
+
+        // Touch/Swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                changeSlide(1);
+            }
+            if (touchEndX > touchStartX + 50) {
+                changeSlide(-1);
+            }
+        }
+    </script>
+</body>
+</html>
