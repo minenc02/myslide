@@ -10,58 +10,59 @@
 <body class="bg-slate-900 text-white min-h-screen p-10">
 
 <h1 class="text-3xl font-bold text-center mb-8">
-📂 Auto Scan Repository
+📂 Auto Scan Semua File
 </h1>
 
-<div id="status" class="text-center text-yellow-400 mb-6">
-Memuat file...
-</div>
-
-<div id="fileList" class="grid gap-4 max-w-2xl mx-auto"></div>
+<div id="fileList" class="grid gap-4 max-w-3xl mx-auto"></div>
 
 <script>
+
 async function loadFiles() {
-    const username = "minenc02";
-    const repo = "myslide";
-    const apiURL = `https://api.github.com/repos/${username}/${repo}/contents`;
+
+    const apiURL = "https://api.github.com/repos/minenc02/myslide/contents";
 
     try {
+
         const response = await fetch(apiURL);
 
         if (!response.ok) {
-            throw new Error("Repo harus PUBLIC atau API limit kena.");
+            throw new Error("Gagal ambil data dari GitHub API");
         }
 
-        const data = await response.json();
+        const files = await response.json();
 
         const container = document.getElementById("fileList");
-        const status = document.getElementById("status");
-        status.innerHTML = "";
 
-        data.forEach(item => {
-            if (item.type === "file") {
+        files.forEach(file => {
+
+            if (file.type === "file") {
+
+                // Gunakan encodeURI agar file dengan spasi tetap bisa dibuka
+                const safeURL = encodeURI(file.name);
 
                 const link = document.createElement("a");
-                link.href = item.name;
-                link.className =
-                    "block bg-slate-700 hover:bg-blue-600 p-4 rounded-xl transition";
-                link.innerHTML = "📄 " + item.name;
+                link.href = safeURL;
+                link.target = "_blank";
+                link.className = "block bg-slate-700 hover:bg-blue-600 p-4 rounded-xl transition";
+
+                link.innerHTML = "📄 " + file.name;
 
                 container.appendChild(link);
             }
+
         });
 
-        if (container.innerHTML === "") {
-            container.innerHTML = "<p class='text-gray-400'>Tidak ada file.</p>";
-        }
+    } catch (err) {
 
-    } catch (error) {
-        document.getElementById("status").innerHTML =
-            "<span class='text-red-400'>❌ " + error.message + "</span>";
+        document.getElementById("fileList").innerHTML =
+            "<p class='text-red-400'>❌ " + err.message + "</p>";
+
     }
+
 }
 
 loadFiles();
+
 </script>
 
 </body>
