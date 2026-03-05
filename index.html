@@ -1,29 +1,24 @@
 <script>
 const username = "minenc02";
-const repo = "minenc02.github.io";
+const repo = "myslide";   // 🔥 INI YANG BENAR
 const branch = "main";
-const folder = "myslide";
 
-const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/${folder}?ref=${branch}`;
+const apiURL = `https://api.github.com/repos/${username}/${repo}/contents?ref=${branch}`;
 
 async function loadFiles() {
     const container = document.getElementById("fileList");
 
     try {
-        const response = await fetch(apiURL, {
-            headers: {
-                "Accept": "application/vnd.github.v3+json"
-            }
-        });
+        const response = await fetch(apiURL);
 
         if (!response.ok) {
-            throw new Error("HTTP Error: " + response.status);
+            throw new Error("HTTP " + response.status);
         }
 
         const data = await response.json();
 
         if (!Array.isArray(data)) {
-            throw new Error("Folder tidak ditemukan.");
+            throw new Error("Format data salah.");
         }
 
         container.innerHTML = "";
@@ -43,12 +38,14 @@ async function loadFiles() {
         htmlFiles.forEach(file => {
             const link = document.createElement("a");
 
-            // gunakan path lengkap supaya aman
-            link.href = `/${file.path}`;
+            // langsung pakai nama file karena satu folder
+            link.href = file.name;
+
             link.className =
                 "block bg-slate-700 hover:bg-cyan-600 transition p-4 rounded-xl text-lg font-semibold text-center";
 
-            link.textContent = file.name.replace(".html", "").toUpperCase();
+            link.textContent =
+                file.name.replace(".html", "").toUpperCase();
 
             container.appendChild(link);
         });
