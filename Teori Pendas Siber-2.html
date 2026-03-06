@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengetahuan Dasar Siber - Presentasi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Color Palette - High Contrast Dark Theme */
+            --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            --slide-bg: #0f0f0f;
+            --primary-color: #ffffff;
+            --accent-color: #00d4ff;
+            --accent-2: #ff6b6b;
+            --text-dark: #ffffff;
+            --text-light: #ffffff;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            
+            /* Typography Sizes */
+            --font-title: 32px;
+            --font-body: 22px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #000000;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Container to maintain Aspect Ratio (16:9) */
+        #presentation-container {
+            width: 1280px;
+            height: 720px;
+            background: var(--bg-gradient);
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,212,255,0.3);
+            overflow: hidden;
+            border-radius: 8px;
+            border: 2px solid #333;
+        }
+
+        /* Slides Wrapper */
+        .slides-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease-in-out;
+            background: var(--slide-bg);
+            background-image: radial-gradient(circle at top right, #1a1a2e 0%, #0a0a0a 60%);
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+
+        /* Background hitam pekat untuk semua slide */
+        .slide {
+            background: #0a0a0a !important;
+            background-image: radial-gradient(circle at top right, #1a1a2e 0%, #000000 60%) !important;
+        }
+
+        /* Typography - Warna putih untuk kontras tinggi */
+        h1.slide-title {
+            font-size: var(--font-title);
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.2;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            align-self: center;
+            text-shadow: 0 0 20px rgba(0,212,255,0.5);
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 15px;
+            width: 100%;
+        }
+
+        p, li {
+            font-size: var(--font-body);
+            color: #ffffff;
+            line-height: 1.4;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        ul li {
+            position: relative;
+            margin-bottom: 8px;
+            padding-left: 25px;
+        }
+
+        ul li::before {
+            content: '▸';
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* Layout Helpers */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .box-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0,212,255,0.1);
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .box-card.accent-2 {
+            border-left-color: var(--accent-2);
+            box-shadow: 0 0 20px rgba(255,107,107,0.1);
+        }
+
+        .box-card.text-left {
+            text-align: left;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .sub-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--accent-2);
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+
+        /* --- IMAGE FRAME STYLE - OPTIMIZED FOR DARK BG --- */
+        .image-frame {
+            width: 100%;
+            min-height: 150px;
+            background-color: rgba(255,255,255,0.05);
+            border: 2px solid rgba(0,212,255,0.3);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0 0 20px rgba(0,212,255,0.1);
+            position: relative;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            max-height: 300px;
+        }
+
+        .image-frame.cover-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            border: none;
+            border-radius: 0;
+            margin: 0;
+            opacity: 0.2;
+        }
+
+        .image-frame.cover-img img {
+            object-fit: cover;
+            max-height: none;
+            opacity: 0.3;
+        }
+
+        .image-frame.side-img {
+            height: 100%;
+            min-height: 300px;
+        }
+
+        .image-frame.side-img img {
+            object-fit: contain;
+            max-height: 400px;
+        }
+
+        .image-frame.grid-img {
+            height: 120px;
+            min-height: 120px;
+        }
+
+        .image-frame.grid-img img {
+            max-height: 120px;
+        }
+        /* ------------------------ */
+
+        /* Specific Adjustment for Slide 12 (Kejahatan Modern) */
+        .large-font-grid .box-card p {
+            font-size: 26px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+        .large-font-grid .box-card {
+            padding: 20px 10px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        /* Controls - Enhanced Navigation */
+        .controls {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 10px 25px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0,212,255,0.3);
+            border: 1px solid rgba(0,212,255,0.3);
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0,212,255,0.3);
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-color);
+            color: #000;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0,212,255,0.6);
+        }
+
+        .nav-btn:disabled {
+            background: #333;
+            border-color: #555;
+            color: #666;
+            cursor: not-allowed;
+            transform: scale(1);
+            box-shadow: none;
+        }
+
+        .slide-counter {
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+            z-index: 101;
+            box-shadow: 0 0 10px rgba(0,212,255,0.5);
+        }
+
+        /* Specific Slide Adjustments */
+        .cover-slide h1 {
+            border: none;
+            font-size: 50px;
+            color: #ffffff;
+            text-shadow: 0 0 30px rgba(0,212,255,0.8);
+            margin-bottom: 20px;
+        }
+        
+        .cover-tags {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(0,212,255,0.2);
+            color: #00d4ff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            border: 1px solid rgba(0,212,255,0.5);
+            box-shadow: 0 0 15px rgba(0,212,255,0.2);
+        }
+        
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            height: 100%;
+        }
+        
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* List style for Domain Perang */
+        .domain-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .domain-list .box-card {
+            text-align: left;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+        }
+        .domain-list .box-card h3 {
+            margin: 0;
+            font-size: 22px;
+            color: #ffffff;
+        }
+        .domain-list .box-card:last-child {
+            border-left-color: var(--accent-color);
+            background: rgba(0,212,255,0.1);
+        }
+        .domain-list .box-card:last-child h3 {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        /* Untuk slide teks padat */
+        .text-left ul li {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 1300px) {
+            #presentation-container {
+                transform: scale(0.8);
+            }
+        }
+
+        /* Slide specific layouts */
+        .slide-image-left {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+            height: 100%;
+        }
+
+        .slide-image-top {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 100%;
+        }
+
+        .slide-image-top .image-frame {
+            height: 200px;
+            min-height: 200px;
+        }
+
+        .slide-image-top .image-frame img {
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .slide-full-image {
+            position: relative;
+            padding: 0;
+        }
+
+        .slide-full-image .content-overlay {
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            right: 50px;
+            background: rgba(0,0,0,0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,212,255,0.3);
+            border: 2px solid var(--accent-color);
+        }
+
+        /* Glow effects for text */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0,212,255,0.5);
+        }
+
+        /* Special styling for cover slide */
+        .cover-slide {
+            background: #000000 !important;
+        }
+
+        .cover-slide .content-wrapper {
+            background: rgba(0,0,0,0.7);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(0,212,255,0.3);
+            box-shadow: 0 0 30px rgba(0,212,255,0.2);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <div id="presentation-container">
+        <div class="slides-wrapper">
+
+            <!-- SLIDE 1: COVER -->
+            <section class="slide active cover-slide">
+                <div class="image-frame cover-img">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1280&h=720&fit=crop" alt="Cyber Security Background">
+                </div>
+                <div class="content-wrapper" style="justify-content: center; text-align: center; position: relative; z-index: 1;">
+                    <h1 style="font-size: 50px;">Pengetahuan Dasar Siber</h1>
+                    <div class="cover-tags">
+                        <span class="tag">Hukum Siber</span>
+                        <span class="tag">Keamanan Jaringan</span>
+                        <span class="tag">Ancaman Siber</span>
+                    </div>
+                    <p style="margin-top: 20px; font-weight: 600; color: #aaa;">Cyber Security & Digital Protection</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: MATERI PEMBAHASAN -->
+            <section class="slide">
+                <h1 class="slide-title">Materi Pembahasan</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <ul style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                        <li><strong style="color: var(--accent-color);">1. Hukum Siber</strong><br>Peraturan hukum dan kejahatan dunia maya di Indonesia</li>
+                        <li><strong style="color: var(--accent-color);">2. Keamanan Jaringan & Firewall</strong><br>Jenis serangan, fungsi dan arsitektur firewall</li>
+                        <li><strong style="color: var(--accent-color);">3. Hacking vs Ethical Hacking</strong><br>Definisi, jenis dan klasifikasi hacker</li>
+                        <li><strong style="color: var(--accent-color);">4. Ancaman Siber</strong><br>Social Engineering, Backdoor, dan Malware</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: DOMAIN PERANG -->
+            <section class="slide">
+                <h1 class="slide-title">Domain Perang</h1>
+                <div class="content-wrapper">
+                    <div class="slide-image-left" style="align-items: stretch;">
+                        <div class="image-frame side-img" style="margin-bottom: 0;">
+                            <img src="https://i.ibb.co/nMfQDz9p/gambar-1.png" alt="Ilustrasi 5 Domain Perang" onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop'">
+                        </div>
+                        
+                        <div class="domain-list">
+                            <div class="box-card">
+                                <h3>🔴 Perang Darat</h3>
+                            </div>
+                            <div class="box-card">
+                                <h3>🔵 Perang Laut</h3>
+                            </div>
+                            <div class="box-card">
+                                <h3>⚪ Perang Udara</h3>
+                            </div>
+                            <div class="box-card">
+                                <h3>🟣 Perang Antariksa</h3>
+                            </div>
+                            <div class="box-card" style="border-left-color: var(--accent-color); background: rgba(0,212,255,0.1);">
+                                <h3 style="color: var(--accent-color);">💻 Perang Siber</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: DEFINISI HUKUM SIBER -->
+            <section class="slide">
+                <h1 class="slide-title">Definisi Hukum Siber</h1>
+                <div class="content-wrapper">
+                    <p style="text-align: center; margin-bottom: 20px; font-size: 24px;">
+                        <strong style="color: var(--accent-color);">Cyber Law</strong> adalah aturan hukum yang mengatur penggunaan teknologi informasi, sistem elektronik, jaringan komputer serta kejahatan yang terjadi di ruang digital.
+                    </p>
+                    <div style="background: rgba(0,212,255,0.1); padding: 20px; border-radius: 10px; border: 1px solid rgba(0,212,255,0.3);">
+                        <h3 style="font-size: 26px; margin-bottom: 15px; color: var(--accent-color);">Tujuan Utama:</h3>
+                        <ul style="font-size: 20px;">
+                            <li>Melindungi sistem elektronik</li>
+                            <li>Melindungi data</li>
+                            <li>Menindak kejahatan siber</li>
+                            <li>Menjamin keamanan informasi nasional</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: DASAR HUKUM SIBER -->
+            <section class="slide">
+                <h1 class="slide-title">Dasar Hukum Siber di Indonesia</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <ul style="column-count: 2; column-gap: 50px; font-size: 20px;">
+                        <li style="margin-bottom: 15px;">📜 UU No. 11 Tahun 2008 tentang ITE</li>
+                        <li style="margin-bottom: 15px;">📜 UU No. 19 Tahun 2016 (Perubahan ITE)</li>
+                        <li style="margin-bottom: 15px;">📜 UU No. 1 Tahun 2024 (Perubahan Kedua ITE)</li>
+                        <li style="margin-bottom: 15px;">📜 KUHP Nasional UU No. 1 Tahun 2023</li>
+                        <li style="margin-bottom: 15px;">📜 UU Perlindungan Data Pribadi No. 27 Tahun 2022</li>
+                    </ul>
+                    <p style="text-align: center; margin-top: 20px; font-style: italic; color: #aaa;">Regulasi ini menjadi dasar utama penegakan hukum cybercrime di Indonesia.</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: PERBANDINGAN REGULASI -->
+            <section class="slide">
+                <h1 class="slide-title">Perbandingan Regulasi</h1>
+                <div class="content-wrapper">
+                    <div class="two-col">
+                        <div class="box-card" style="background: rgba(255,255,255,0.05);">
+                            <h3 class="sub-title" style="color: #ffaa00;">📋 Regulasi Lama</h3>
+                            <ul>
+                                <li>KUHP lama (Wetboek van Strafrecht)</li>
+                                <li>UU ITE 2008</li>
+                                <li>Revisi ITE 2016</li>
+                            </ul>
+                        </div>
+                        <div class="box-card accent-2" style="background: rgba(0,255,136,0.1); border-left-color: #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">✨ Regulasi Baru</h3>
+                            <ul>
+                                <li>KUHP Nasional 2023</li>
+                                <li>Revisi kedua UU ITE 2024</li>
+                                <li>UU Perlindungan Data Pribadi 2022</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 15px; color: #aaa;">Perubahan ini memperkuat perlindungan hukum terhadap kejahatan digital.</p>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: PERBANDINGAN PASAL -->
+            <section class="slide">
+                <h1 class="slide-title">Contoh Perubahan Pendekatan Hukum</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">⚠️ Pendekatan Lama</h3>
+                            <p><strong>Carding</strong> → Pasal 362 KUHP</p>
+                            <p><strong>Penipuan Online</strong> → Pasal 378 KUHP</p>
+                            <p><strong>Deface Website</strong> → Pasal 406 KUHP</p>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(0,212,255,0.1); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">🛡️ Pendekatan Baru</h3>
+                            <p><strong>Akses Ilegal</strong> → Pasal 30 UU ITE</p>
+                            <p><strong>Manipulasi Data</strong> → Pasal 32 UU ITE</p>
+                            <p><strong>Gangguan Sistem</strong> → Pasal 33 UU ITE</p>
+                            <p><strong>Kebocoran Data</strong> → UU PDP</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: PASAL PENTING UU ITE (LARANGAN) -->
+            <section class="slide">
+                <h1 class="slide-title">Pasal Penting UU ITE (Larangan)</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <div class="grid-2x2">
+                        <div class="box-card" style="background: rgba(255,107,107,0.1); border-left-color: #ff6b6b;">
+                            <h3 class="sub-title" style="color: #ff6b6b;">🚫 Pasal 27</h3>
+                            <ul>
+                                <li>Konten melanggar kesusilaan</li>
+                                <li>Perjudian online</li>
+                                <li>Pencemaran nama baik</li>
+                                <li>Pemerasan digital</li>
+                            </ul>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">⚠️ Pasal 28</h3>
+                            <ul>
+                                <li>Penyebaran hoaks</li>
+                                <li>Ujaran kebencian SARA</li>
+                            </ul>
+                        </div>
+                        <div class="box-card" style="grid-column: span 2; background: rgba(138,43,226,0.1); border-left-color: #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">🔒 Pasal 29</h3>
+                            <p>Ancaman atau teror digital</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: PASAL KEJAHATAN SISTEM ELEKTRONIK -->
+            <section class="slide">
+                <h1 class="slide-title">Pasal Kejahatan Sistem Elektronik</h1>
+                <div class="content-wrapper">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <ul>
+                            <li><strong style="color: var(--accent-color);">Pasal 30:</strong> Akses ilegal ke sistem elektronik (Hacking)</li>
+                            <li><strong style="color: var(--accent-color);">Pasal 31:</strong> Penyadapan ilegal</li>
+                            <li><strong style="color: var(--accent-color);">Pasal 32:</strong> Manipulasi atau pencurian data</li>
+                        </ul>
+                        <ul>
+                            <li><strong style="color: var(--accent-color);">Pasal 33:</strong> Gangguan terhadap sistem elektronik</li>
+                            <li><strong style="color: var(--accent-color);">Pasal 34:</strong> Distribusi alat untuk melakukan cybercrime</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: SANKSI PIDANA UU ITE -->
+            <section class="slide">
+                <h1 class="slide-title">Sanksi Pidana UU ITE</h1>
+                <div class="content-wrapper">
+                    <div class="three-col">
+                        <div class="box-card" style="background: rgba(255,0,0,0.1); border-left-color: #ff0000;">
+                            <h3 class="sub-title" style="color: #ff4444;">⛓️ Pasal 45</h3>
+                            <p>Pidana hingga 6 tahun</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">📢 Pasal 45A</h3>
+                            <p>Hoaks dan ujaran kebencian</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.1); border-left-color: #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">🔓 Pasal 46</h3>
+                            <p>Akses ilegal sistem</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,212,255,0.1); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">👂️ Pasal 47</h3>
+                            <p>Penyadapan ilegal</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,255,136,0.1); border-left-color: #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">📝 Pasal 48</h3>
+                            <p>Manipulasi data</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,107,107,0.1); border-left-color: #ff6b6b;">
+                            <h3 class="sub-title" style="color: #ff6b6b;">💥 Pasal 49</h3>
+                            <p>Gangguan sistem elektronik</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: UU PDP 2022 -->
+            <section class="slide">
+                <h1 class="slide-title">UU Perlindungan Data Pribadi 2022</h1>
+                <div class="content-wrapper">
+                    <div class="two-col">
+                        <div style="background: rgba(255,107,107,0.1); padding: 20px; border-radius: 10px; border: 1px solid rgba(255,107,107,0.3);">
+                            <h3 class="sub-title" style="color: #ff6b6b;">⚠️ Contoh Pelanggaran</h3>
+                            <ul>
+                                <li>Menjual database pengguna</li>
+                                <li>Kebocoran data</li>
+                                <li>Penyalahgunaan NIK</li>
+                                <li>Penyalahgunaan informasi pribadi</li>
+                            </ul>
+                        </div>
+                        <div class="box-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: rgba(255,0,0,0.15); border: 2px solid #ff0000;">
+                            <h3 class="sub-title" style="color: #ff4444;">⛓️ SANKSI BERAT</h3>
+                            <p style="font-size: 28px; color: #ff4444; font-weight: bold; margin: 10px 0;">Penjara 6 Tahun</p>
+                            <p style="font-size: 28px; color: #ffaa00; font-weight: bold;">Denda 6 Miliar</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: JENIS KEJAHATAN SIBER MODERN -->
+            <section class="slide">
+                <h1 class="slide-title">Jenis Kejahatan Siber Modern</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <div class="three-col large-font-grid">
+                        <div class="box-card" style="background: rgba(255,0,0,0.15); border-color: #ff4444;"><p style="color: #ff4444;">🎣 Phishing</p></div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.15); border-color: #8a2be2;"><p style="color: #8a2be2;">🦠 Malware</p></div>
+                        <div class="box-card" style="background: rgba(255,0,255,0.15); border-color: #ff00ff;"><p style="color: #ff00ff;">🔒 Ransomware</p></div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.15); border-color: #ffaa00;"><p style="color: #ffaa00;">📂 Data Breach</p></div>
+                        <div class="box-card" style="background: rgba(0,212,255,0.15); border-color: var(--accent-color);"><p style="color: var(--accent-color);">🎭 Identity Theft</p></div>
+                        <div class="box-card" style="background: rgba(0,255,136,0.15); border-color: #00ff88;"><p style="color: #00ff88;">🗣️ Social Eng.</p></div>
+                        <div class="box-card" style="background: rgba(255,69,0,0.15); border-color: #ff4500;"><p style="color: #ff4500;">🌊 DDoS Attack</p></div>
+                        <div class="box-card" style="background: rgba(255,215,0,0.15); border-color: #ffd700;"><p style="color: #ffd700;">💰 Crypto Scam</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 13: PENTINGNYA HUKUM SIBER -->
+            <section class="slide">
+                <h1 class="slide-title">Pentingnya Hukum Siber</h1>
+                <div class="content-wrapper">
+                    <div class="grid-2x2">
+                        <div class="box-card" style="background: rgba(0,212,255,0.1);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">1. 🛡️ Mencegah Korupsi</h3>
+                            <p>Mengurangi praktik korupsi melalui regulasi digital yang transparan dan terukur.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,107,107,0.1);">
+                            <h3 class="sub-title" style="color: #ff6b6b;">2. 🏛️ Keamanan Nasional</h3>
+                            <p>Meningkatkan pertahanan dari serangan teroris dan ancaman kejahatan siber.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,255,136,0.1);">
+                            <h3 class="sub-title" style="color: #00ff88;">3. 💼 Proteksi Bisnis</h3>
+                            <p>Melindungi dunia usaha dari penipuan, kerusakan reputasi, dan risiko hukum.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.1);">
+                            <h3 class="sub-title" style="color: #ffaa00;">4. ⚖️ Penegak Hukum</h3>
+                            <p>Sarana untuk menghukum pelaku kejahatan teknologi informasi secara adil.</p>
+                        </div>
+                        <div class="box-card accent-2" style="grid-column: span 2; text-align: center; background: rgba(138,43,226,0.15); border: 2px solid #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">5. 📜 Bukti Elektronik Sah</h3>
+                            <p>Meningkatkan peluang diakuinya catatan elektronik sebagai alat bukti yang sah di pengadilan untuk kasus kejahatan biasa dan kejahatan komputer.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 14: JENIS SERANGAN KEAMANAN -->
+            <section class="slide">
+                <h1 class="slide-title">Jenis Serangan Keamanan</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <div class="grid-2x2">
+                        <div class="box-card" style="background: rgba(255,0,0,0.15); border-left-color: #ff0000;">
+                            <h3 class="sub-title" style="color: #ff4444;">👂️ Interception</h3>
+                            <p>Pihak tidak berwenang mendapatkan akses informasi.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.15); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">⏹️ Interruption</h3>
+                            <p>Penyerang menguasai sistem sebagian.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.15); border-left-color: #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">🎭 Fabrication</h3>
+                            <p>Menyisipkan objek palsu ke dalam sistem.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,212,255,0.15); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">✏️ Modification</h3>
+                            <p>Merusak dan mengubah sistem secara keseluruhan.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 15: FIREWALL -->
+            <section class="slide">
+                <h1 class="slide-title">Firewall</h1>
+                <div class="content-wrapper">
+                    <div class="slide-image-left">
+                        <div class="box-card text-left" style="background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">🔥 Definisi</h3>
+                            <p>Sistem/perangkat yang mengizinkan lalu lintas jaringan aman dan mencegah yang tidak aman.</p>
+                            <br>
+                            <h3 class="sub-title" style="color: var(--accent-color);">⚙️ Fungsi Utama</h3>
+                            <ul>
+                                <li>Mengatur lalu lintas</li>
+                                <li>Autentikasi akses</li>
+                                <li>Melindungi sumber daya</li>
+                                <li>Mencatat kejadian</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="image-frame side-img">
+                            <img src="https://i.ibb.co/wZZLPt8d/gambar-2.png" alt="Ilustrasi Firewall" onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop'">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 16: IDS DAN IPS -->
+            <section class="slide">
+                <h1 class="slide-title">IDS dan IPS</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(0,212,255,0.1); border-left-color: var(--accent-color); border: 1px solid rgba(0,212,255,0.3);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">👁️ IDS (Intrusion Detection System)</h3>
+                            <p style="margin-bottom: 5px;"><strong>Definisi:</strong> Sistem yang memantau jaringan untuk mendeteksi aktivitas mencurigakan.</p>
+                            <ul style="font-size: 18px; margin-top: 5px;">
+                                <li><strong style="color: #ffaa00;">Sifat:</strong> Pasif (Monitoring)</li>
+                                <li><strong style="color: #ffaa00;">Aksi:</strong> Memberikan peringatan (Alert) saja</li>
+                                <li><strong style="color: #ffaa00;">Peran:</strong> "Pengawas Keamanan"</li>
+                            </ul>
+                        </div>
+
+                        <div class="box-card text-left" style="background: rgba(255,0,0,0.1); border-left-color: #ff0000; border: 1px solid rgba(255,0,0,0.3);">
+                            <h3 class="sub-title" style="color: #ff4444;">🛡️ IPS (Intrusion Prevention System)</h3>
+                            <p style="margin-bottom: 5px;"><strong>Definisi:</strong> Sistem keamanan yang mendeteksi dan secara aktif mencegah ancaman.</p>
+                            <ul style="font-size: 18px; margin-top: 5px;">
+                                <li><strong style="color: #00ff88;">Sifat:</strong> Aktif (Blocking)</li>
+                                <li><strong style="color: #00ff88;">Aksi:</strong> Menolak atau memblokir paket berbahaya</li>
+                                <li><strong style="color: #00ff88;">Peran:</strong> "Penghalang Keamanan"</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="image-frame" style="height: 150px; margin-top: 15px;">
+                        <img src="https://i.ibb.co/5XbJ2bns/gambar-3.png" alt="Arsitektur IDS vs IPS" onerror="this.src='https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=200&fit=crop'" style="max-height: 150px;">
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 17: JENIS FIREWALL -->
+            <section class="slide">
+                <h1 class="slide-title">Jenis Firewall</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <div class="grid-2x2">
+                        <div class="box-card" style="background: rgba(0,212,255,0.1);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">1. 🖥️ Personal Firewall</h3>
+                            <p>Contoh: Microsoft Windows Firewall</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.1);">
+                            <h3 class="sub-title" style="color: #8a2be2;">2. 🌐 Network Firewall</h3>
+                            <p>Contoh: ISA Server, Cisco PIX</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.1);">
+                            <h3 class="sub-title" style="color: #ffaa00;">3. 🔢 IP Filtering</h3>
+                            <p>Bekerja pada level paket</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,255,136,0.1);">
+                            <h3 class="sub-title" style="color: #00ff88;">4. 🔄 Proxy Server</h3>
+                            <p>Duplikasi komunikasi</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 18: ARSITEKTUR FIREWALL 1 -->
+            <section class="slide">
+                <h1 class="slide-title">Arsitektur Firewall (Bagian 1)</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(0,212,255,0.1); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">🖧 Dual-Homed Host</h3>
+                            <ul>
+                                <li>Dua Network Interface</li>
+                                <li>Interface 1: Jaringan Internal</li>
+                                <li>Interface 2: Internet</li>
+                                <li>Routing Dinon-aktifkan (Mencegah koneksi langsung)</li>
+                            </ul>
+                        </div>
+                        <div class="box-card accent-2" style="background: rgba(255,107,107,0.1); border-left-color: #ff6b6b;">
+                            <h3 class="sub-title" style="color: #ff6b6b;">🏰 Bastion Host</h3>
+                            <p>Titik pertahanan utama firewall</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 19: ARSITEKTUR FIREWALL 2 -->
+            <section class="slide">
+                <h1 class="slide-title">Arsitektur Firewall (Bagian 2)</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">🛡️ Screened Host</h3>
+                            <ul>
+                                <li>Packet Filtering (Pengamanan utama via router)</li>
+                                <li>Bastion Host Internal (Hanya dia yang koneksi ke Internet)</li>
+                                <li>Akses Terkendali (Hanya tipe koneksi tertentu)</li>
+                            </ul>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(0,255,136,0.1); border-left-color: #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">🔒 Screened Subnet</h3>
+                            <ul>
+                                <li>Layer Pengaman Tambahan (Perimeter)</li>
+                                <li>Dua Screening Router</li>
+                                <li>Keamanan Maksimal (Harus tembus 2 router)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 20: HACKING VS ETHICAL HACKING -->
+            <section class="slide">
+                <h1 class="slide-title">Hacking vs Ethical Hacking</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch; height: 100%;">
+                        <div class="box-card text-left" style="background: rgba(255,0,0,0.15); border: 2px solid #ff0000;">
+                            <div class="image-frame grid-img" style="margin-bottom: 15px; border-color: #ff0000;">
+                                <img src="https://i.ibb.co/5W5rjL1C/gambar-4.png" alt="Hacker" onerror="this.src='https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop'">
+                            </div>
+                            <h3 class="sub-title" style="color: #ff4444;">👤 Hacking</h3>
+                            <ul style="font-size: 19px;">
+                                <li>Menembus keamanan sistem komputer/jaringan</li>
+                                <li>Mendapatkan akses tidak sah</li>
+                                <li>Membahayakan sistem/mencuri info</li>
+                                <li><strong style="color: #ff0000;">❌ Tanpa izin</strong></li>
+                            </ul>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(0,255,136,0.15); border: 2px solid #00ff88;">
+                            <div class="image-frame grid-img" style="margin-bottom: 15px; border-color: #00ff88;">
+                                <img src="https://i.ibb.co/237hB2NP/gambar-5.png" alt="Ethical Hacker" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=400&h=200&fit=crop'">
+                            </div>
+                            <h3 class="sub-title" style="color: #00ff88;">🛡️ Ethical Hacking</h3>
+                            <ul style="font-size: 19px;">
+                                <li>Hacking atas izin pemilik</li>
+                                <li>Menemukan kelemahan (pengujian)</li>
+                                <li>Meningkatkan keamanan</li>
+                                <li><strong style="color: #00ff88;">✅ Legal dan etis</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 21: HACKER BERDASARKAN TUJUAN -->
+            <section class="slide">
+                <h1 class="slide-title">Jenis Hacker (Tujuan)</h1>
+                <div class="content-wrapper" style="justify-content: center;">
+                    <div class="grid-2x2">
+                        <div class="box-card" style="background: rgba(0,255,136,0.15); border: 2px solid #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">🎩 White Hats</h3>
+                            <p>Mencari celah untuk analisa dan memperkuat keamanan.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,0,0,0.15); border: 2px solid #ff0000;">
+                            <h3 class="sub-title" style="color: #ff4444;">🎭 Black Hats</h3>
+                            <p>Menggunakan kemampuan untuk kejahatan (crackers).</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.15); border: 2px solid #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">🎨 Grey Hats</h3>
+                            <p>Kadang white hat, kadang black hat (keuntungan).</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.15); border: 2px solid #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">💀 Suicide</h3>
+                            <p>Coba-coba merusak untuk kepuasan pribadi.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 22: HACKER BERDASARKAN KEMAMPUAN -->
+            <section class="slide">
+                <h1 class="slide-title">Jenis Hacker (Kemampuan)</h1>
+                <div class="content-wrapper">
+                    <div class="three-col">
+                        <div class="box-card" style="background: rgba(255,215,0,0.15); border-left-color: #ffd700;">
+                            <h3 class="sub-title" style="color: #ffd700;">1. 👑 Elite</h3>
+                            <p>Kasta tertinggi, paham detail sistem komputer dan jaringan.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(192,192,192,0.15); border-left-color: #c0c0c0;">
+                            <h3 class="sub-title" style="color: #c0c0c0;">2. 🥈 Semi Elite</h3>
+                            <p>Lebih muda dari Elite, menggunakan software bantuan (exploit).</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(205,127,50,0.15); border-left-color: #cd7f32;">
+                            <h3 class="sub-title" style="color: #cd7f32;">3. 📚 Developed Kiddie</h3>
+                            <p>Masih bersekolah, mencoba keamanan jaringan sekolah.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,212,255,0.15); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">4. 📜 Script Kiddie</h3>
+                            <p>Kemampuan dan pemahaman minim terhadap sistem.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(128,128,128,0.15); border-left-color: #808080;">
+                            <h3 class="sub-title" style="color: #808080;">5. 🔧 Lamer</h3>
+                            <p>Belum bisa disebut hacker, hanya menggunakan program jadi.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 23: SOCIAL ENGINEERING 1 -->
+            <section class="slide">
+                <h1 class="slide-title">Social Engineering (1)</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">🎭 Definisi</h3>
+                            <p>Teknik pengumpulan informasi memanfaatkan celah psikologi target.</p>
+                            <br>
+                            <h3 class="sub-title" style="color: #ffaa00;">🎪 Metode</h3>
+                            <p>Langsung meminta informasi atau menciptakan situasi palsu.</p>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(0,255,136,0.1); border-left-color: #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">🛡️ Pencegahan</h3>
+                            <ul>
+                                <li>Peraturan tertulis</li>
+                                <li>Password kuat</li>
+                                <li>Batasan hak akses</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 24: SOCIAL ENGINEERING 2 (PROSES) -->
+            <section class="slide">
+                <h1 class="slide-title">Social Engineering (Proses)</h1>
+                <div class="content-wrapper">
+                    <div class="grid-2x2">
+                        <div class="box-card" style="background: rgba(0,212,255,0.1); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">1. 🔍 Information Gathering</h3>
+                            <p>Mengumpulkan informasi dari target.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">2. 🤝 Development of Relationship</h3>
+                            <p>Membangun kepercayaan dengan target.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,107,107,0.1); border-left-color: #ff6b6b;">
+                            <h3 class="sub-title" style="color: #ff6b6b;">3. ⚡ Exploitation</h3>
+                            <p>Mengeksploitasi kepercayaan untuk informasi.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.1); border-left-color: #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">4. 🎯 Execution</h3>
+                            <p>Melaksanakan tujuan penyerang.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 25: BACKDOOR 1 -->
+            <section class="slide">
+                <h1 class="slide-title">Backdoor (1)</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(255,0,0,0.1); border-left-color: #ff0000;">
+                            <h3 class="sub-title" style="color: #ff4444;">🚪 Definisi</h3>
+                            <p>Software akses sistem tanpa proses autentikasi.</p>
+                            <br>
+                            <h3 class="sub-title" style="color: #ff4444;">⚡ Fungsi</h3>
+                            <p>Mengambil hak akses website dan server.</p>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(0,255,136,0.1); border-left-color: #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">🔧 Penanggulangan</h3>
+                            <ul>
+                                <li>Bersihkan web hosting</li>
+                                <li>Cari file backdoor</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 26: BACKDOOR 2 -->
+            <section class="slide">
+                <h1 class="slide-title">Backdoor (2)</h1>
+                <div class="content-wrapper">
+                    <div class="two-col" style="align-items: stretch;">
+                        <div class="box-card text-left" style="background: rgba(138,43,226,0.1); border-left-color: #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">📂 Jenis</h3>
+                            <ul>
+                                <li><strong style="color: var(--accent-color);">Web Shell Backdoor:</strong> Pintu masuk melalui web shell untuk eksekusi program.</li>
+                                <li><strong style="color: var(--accent-color);">System Backdoor:</strong> Jenis paling populer, memberikan fleksibilitas dan stabilitas.</li>
+                            </ul>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(255,0,0,0.1); border-left-color: #ff0000;">
+                            <h3 class="sub-title" style="color: #ff4444;">⚠️ Bahaya</h3>
+                            <ul>
+                                <li>Pencurian data</li>
+                                <li>Pembajakan server</li>
+                                <li>Serangan DDoS</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 27: MALWARE (JENIS 1) -->
+            <section class="slide">
+                <h1 class="slide-title">Malware: Jenis Berbahaya</h1>
+                <div class="content-wrapper">
+                    <div class="three-col">
+                        <div class="box-card" style="background: rgba(255,0,0,0.15); border: 1px solid #ff0000;">
+                            <div class="image-frame grid-img" style="border-color: #ff0000;">
+                                <img src="https://i.ibb.co/93HKtTBk/gambar-6.jpg" alt="Virus" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?w=300&h=150&fit=crop'">
+                            </div>
+                            <h3 class="sub-title" style="margin-top: 5px; font-size: 20px; color: #ff4444;">🦠 Virus</h3>
+                            <p style="font-size: 18px;">Kode menular menempel pada software.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(138,43,226,0.15); border: 1px solid #8a2be2;">
+                            <div class="image-frame grid-img" style="border-color: #8a2be2;">
+                                <img src="https://i.ibb.co/23rsszL2/gambar-7.jpg" alt="Worms" onerror="this.src='https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=300&h=150&fit=crop'">
+                            </div>
+                            <h3 class="sub-title" style="margin-top: 5px; font-size: 20px; color: #8a2be2;">🐛 Worms</h3>
+                            <p style="font-size: 18px;">Software mandiri bereplikasi.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,170,0,0.15); border: 1px solid #ffaa00;">
+                            <div class="image-frame grid-img" style="border-color: #ffaa00;">
+                                <img src="https://i.ibb.co/QvtKKMJY/gambar-8.jpg" alt="Trojan Horse" onerror="this.src='https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=300&h=150&fit=crop'">
+                            </div>
+                            <h3 class="sub-title" style="margin-top: 5px; font-size: 20px; color: #ffaa00;">🐴 Trojan Horse</h3>
+                            <p style="font-size: 18px;">Menyamar sebagai program berguna.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,0,0,0.3); border-left-color: #333;">
+                            <h3 class="sub-title" style="color: #888;">🕵️ Rootkit</h3>
+                            <p>Software tersembunyi di balik layar.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,0,255,0.15); border-left-color: #ff00ff;">
+                            <h3 class="sub-title" style="color: #ff00ff;">🔒 Ransomware</h3>
+                            <p>Mengunci sistem, menuntut tebusan.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,212,255,0.15); border-left-color: var(--accent-color);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">⌨️ Keylogger</h3>
+                            <p>Merekam semua aktivitas keyboard.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 28: MALWARE (JENIS 2 & PENCEGAHAN) -->
+            <section class="slide">
+                <h1 class="slide-title">Malware: Lainnya & Pencegahan</h1>
+                <div class="content-wrapper">
+                    <div class="two-col">
+                        <div class="box-card text-left" style="background: rgba(255,170,0,0.1); border-left-color: #ffaa00;">
+                            <h3 class="sub-title" style="color: #ffaa00;">📋 Jenis Lainnya</h3>
+                            <ul>
+                                <li><strong style="color: #ffaa00;">Adware:</strong> Program berbasis iklan.</li>
+                                <li><strong style="color: #ff6b6b;">Spyware:</strong> Memata-matai aktivitas pengguna.</li>
+                                <li><strong style="color: #ff4444;">Rogue Security:</strong> Software keamanan palsu.</li>
+                                <li><strong style="color: #8a2be2;">Browser Hijacker:</strong> Mengubah pengaturan browser.</li>
+                            </ul>
+                        </div>
+                        <div class="box-card accent-2 text-left" style="background: rgba(0,255,136,0.1); border-left-color: #00ff88;">
+                            <h3 class="sub-title" style="color: #00ff88;">🛡️ Pencegahan</h3>
+                            <ul>
+                                <li>Instalasi software anti-malware/virus</li>
+                                <li>Aktifkan fungsi Firewall</li>
+                                <li>Lakukan scan rutin secara menyeluruh</li>
+                                <li>Bersihkan USB/Flash Drive yang terinfeksi</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 29: KESIMPULAN -->
+            <section class="slide slide-full-image">
+                <div class="image-frame cover-img">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1280&h=720&fit=crop" alt="Cyber Security Background">
+                </div>
+                <div class="content-overlay" style="background: rgba(0,0,0,0.95); border: 2px solid var(--accent-color);">
+                    <h1 class="slide-title" style="border-bottom-color: var(--accent-color);">Kesimpulan</h1>
+                    <div class="grid-2x2" style="gap: 15px;">
+                        <div class="box-card" style="background: rgba(0,212,255,0.1);">
+                            <h3 class="sub-title" style="color: var(--accent-color);">📜 Hukum Siber Penting</h3>
+                            <p style="font-size: 16px;">Mencegah kejahatan dunia maya dan melindungi masyarakat dari dampak kerugian.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(255,107,107,0.1);">
+                            <h3 class="sub-title" style="color: #ff6b6b;">🔥 Firewall Vital</h3>
+                            <p style="font-size: 16px;">Sistem keamanan jaringan yang melindungi sumber daya dari ancaman eksternal.</p>
+                        </div>
+                        <div class="box-card" style="background: rgba(0,255,136,0.1);">
+                            <h3 class="sub-title" style="color: #00ff88;">⚖️ Hacking Dual Peran</h3>
+                            <p style="font-size: 16px;">Hacking untuk kejahatan vs Ethical Hacking untuk pengujian keamanan.</p>
+                        </div>
+                        <div class="box-card accent-2" style="grid-column: span 2; text-align: center; background: rgba(138,43,226,0.2); border: 2px solid #8a2be2;">
+                            <h3 class="sub-title" style="color: #8a2be2;">🤝 Keamanan Siber Tanggung Jawab Bersama</h3>
+                            <p style="font-size: 16px;">Melindungi informasi dan sistem dari ancaman memerlukan kolaborasi dan kesadaran semua pihak.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progress-bar"></div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="nav-btn" id="prev-btn" onclick="prevSlide()" title="Previous Slide (Page Up)">&#10094;</button>
+            <div class="slide-counter"><span id="current-slide-num">1</span> / <span id="total-slides">29</span></div>
+            <button class="nav-btn" id="next-btn" onclick="nextSlide()" title="Next Slide (Page Down)">&#10095;</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').innerText = totalSlides;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+            
+            document.getElementById('current-slide-num').innerText = currentSlide + 1;
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+            
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlides();
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'PageDown' || e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } 
+            else if (e.key === 'PageUp' || e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            }
+            else if (e.key === 'Home') {
+                e.preventDefault();
+                goToSlide(0);
+            }
+            else if (e.key === 'End') {
+                e.preventDefault();
+                goToSlide(totalSlides - 1);
+            }
+        });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.getElementById('presentation-container').addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.getElementById('presentation-container').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+        }
+
+        updateSlides();
+    </script>
+</body>
+</html>
